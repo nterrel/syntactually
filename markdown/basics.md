@@ -35,7 +35,7 @@ In this subsection I'll put some code blocks.
 }  
 ```
 
-They can use different languages:
+They can use different languages. Say I have a script, `code.py`:
 ```python
 import timeit
 
@@ -50,8 +50,10 @@ execution_time = timeit.timeit(stmt=statement_code, setup=setup_code, number=100
 print(f"Average time to execute over 100 runs: {execution_time / 10000:.6f} seconds per run")
 ```
 
+Which I want to run in a bash shell:
+
 ```bash
-python above_code.py
+python code.py
 ```
 
 
