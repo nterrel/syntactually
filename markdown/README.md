@@ -37,11 +37,5 @@ quickly find the right note/script and remember how to run/view it.
 ## Viewing the notes
 
 - On GitHub: open `basics.md` in the web UI to see how it renders.
-- Locally: you can view Markdown in many editors (VS Code preview, Obsidian, Typora, etc.).
+- Locally: you can view Markdown in many editors (VS Code, Obsidian).
 
-## Notes / TODO
-
-- The image example in `basics.md` should use the exact syntax below (no spaces):
-  - `![alt text](image.jpg)`
-- The code block in `basics.md` is labeled `python` but contains JSON-like content; consider using
-  `json` as the fence label instead if you want highlighting to match.
