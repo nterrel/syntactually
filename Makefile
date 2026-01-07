@@ -1,13 +1,11 @@
 SHELL := /usr/bin/env bash
 .DEFAULT_GOAL := help
 
-# Use the virtual environment shipped with this package (python/.venv)
-VENV_PY := .venv/bin/python
+# Prefer the venv inside python/
+VENV_PY := $(CURDIR)/python/.venv/bin/python
 PY ?= $(shell [[ -x "$(VENV_PY)" ]] && echo "$(VENV_PY)" || echo python3)
 
 PERL ?= perl
-
-# Output directory for captured logs/images
 OUTDIR := outputs
 
 # --- helpers ---
@@ -32,6 +30,14 @@ help:
 .PHONY: prepare
 prepare:
 	@mkdir -p "$(OUTDIR)"
+
+.PHONY: setup
+setup:
+	$(call print_header,Python: setting up venv and installing deps)
+	@python3 -m venv python/.venv
+	@$(VENV_PY) -m pip install -U pip
+	@$(VENV_PY) -m pip install -e "./python[dev]"
+	@echo "Activate with: source python/.venv/bin/activate"
 
 # --- bash ---
 .PHONY: bash bash-check bash-run

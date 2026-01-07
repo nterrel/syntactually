@@ -1,7 +1,12 @@
-# Cache files
-__pycache__
-*.pyc
-*.pyo
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
 
+# Virtual environments
+.venv/
+venv/
+
+# macOS
 .DS_Store
 

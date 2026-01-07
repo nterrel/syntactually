@@ -30,7 +30,7 @@ tuple: (1, 2, 3)
 dict keys: ['One', 'Two', 'Three']
 dict value for 'Two': 2
 dict get with default: 999
-set: {'a', 'b'}
+set: {'b', 'a'}
 set contains 'a'? True
 
 ========================
