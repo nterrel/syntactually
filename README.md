@@ -1,19 +1,12 @@
-# syntactualize
+# syntactually
 
 A personal "syntax notebook" repo: short, runnable examples and reminders for languages/tools I use.
 Each folder contains small scripts that double as notes and reference material.
 
-## Features
-
-- ✅ **Executable documentation** - All scripts run and produce outputs
-- ✅ **CI-verified** - GitHub Actions ensures everything works
-- ✅ **Self-contained** - Scripts are standalone and well-commented
-- ✅ **Multi-language** - Bash, Perl, Python, and Markdown examples
-
 ## Structure
 
 ```
-syntactualize/
+syntactually/
 ├── bash/           # Shell scripting + CLI tools (grep, awk, sed)
 ├── perl/           # Perl basics and idioms
 ├── python/         # Python syntax + libraries (NumPy, Matplotlib)
@@ -36,8 +29,8 @@ syntactualize/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/nterrel/syntactualize.git
-   cd syntactualize
+   git clone https://github.com/nterrel/syntactually.git
+   cd syntactually
    ```
 
 2. Set up Python environment (for Python scripts):
@@ -53,7 +46,7 @@ Run all scripts and generate outputs:
 make all
 ```
 
-Run specific language demos:
+Run specific language notes:
 
 ```bash
 make bash      # Run bash scripts
@@ -136,7 +129,3 @@ GitHub Actions automatically:
 - Runs the test suite
 
 See [.github/workflows/ci.yml](.github/workflows/ci.yml) for details.
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
