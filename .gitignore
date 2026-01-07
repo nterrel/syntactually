@@ -12,6 +12,7 @@ venv/
 .coverage
 .tox/
 .ruff_cache/
+cpp/basics.o
 
 # Generated outputs
 outputs/

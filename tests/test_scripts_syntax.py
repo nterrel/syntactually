@@ -57,6 +57,27 @@ class TestPerlScriptsSyntax:
         assert result.returncode == 0, f"Syntax error in basics.pl:\n{result.stderr}"
 
 
+class TestZshScriptsSyntax:
+    """Test zsh scripts for syntax errors."""
+
+    @pytest.mark.parametrize(
+        "script_name",
+        ["basics.zsh"],
+    )
+    def test_zsh_script_syntax(self, zsh_dir: Path, script_name: str) -> None:
+        """Test zsh script syntax with zsh -n."""
+        script_path = zsh_dir / script_name
+        assert script_path.exists(), f"Script not found: {script_path}"
+
+        result = subprocess.run(
+            ["zsh", "-n", str(script_path)],
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 0, f"Syntax error in {script_name}:\n{result.stderr}"
+
+
 class TestPythonScriptsSyntax:
     """Test python scripts for syntax errors."""
 
@@ -76,3 +97,24 @@ class TestPythonScriptsSyntax:
         )
 
         assert result.returncode == 0, f"Syntax error in {script_name}:\n{result.stderr}"
+
+
+class TestCppProgramsSyntax:
+    """Test C++ programs for syntax errors."""
+
+    @pytest.mark.parametrize(
+        "program_name",
+        ["basics.cpp"],
+    )
+    def test_cpp_program_syntax(self, cpp_dir: Path, program_name: str) -> None:
+        """Test C++ program syntax with compiler check."""
+        program_path = cpp_dir / program_name
+        assert program_path.exists(), f"Program not found: {program_path}"
+
+        result = subprocess.run(
+            ["g++", "-std=c++20", "-fsyntax-only", str(program_path)],
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 0, f"Syntax error in {program_name}:\n{result.stderr}"

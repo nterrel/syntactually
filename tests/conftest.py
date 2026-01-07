@@ -33,3 +33,15 @@ def perl_dir(repo_root: Path) -> Path:
 def python_dir(repo_root: Path) -> Path:
     """Return the python scripts directory."""
     return repo_root / "python"
+
+
+@pytest.fixture(scope="session")
+def zsh_dir(repo_root: Path) -> Path:
+    """Return the zsh scripts directory."""
+    return repo_root / "zsh"
+
+
+@pytest.fixture(scope="session")
+def cpp_dir(repo_root: Path) -> Path:
+    """Return the cpp programs directory."""
+    return repo_root / "cpp"

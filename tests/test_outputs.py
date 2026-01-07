@@ -61,6 +61,40 @@ class TestPerlOutputs:
         assert len(content) > 50, "perl_basics.txt should have content"
 
 
+class TestZshOutputs:
+    """Test zsh script outputs."""
+
+    def test_zsh_basics_output_exists(self, outputs_dir: Path) -> None:
+        """Test that zsh_basics.txt is generated."""
+        output_file = outputs_dir / "zsh_basics.txt"
+        assert output_file.exists(), f"Missing output file: {output_file}"
+
+    def test_zsh_basics_has_content(self, outputs_dir: Path) -> None:
+        """Test that zsh_basics.txt has meaningful content."""
+        output_file = outputs_dir / "zsh_basics.txt"
+        content = output_file.read_text()
+        assert len(
+            content) > 100, "zsh_basics.txt should have substantial content"
+        assert "zsh" in content.lower() or "array" in content, "Missing expected zsh content"
+
+
+class TestZshOutputs:
+    """Test zsh script outputs."""
+
+    def test_zsh_basics_output_exists(self, outputs_dir: Path) -> None:
+        """Test that zsh_basics.txt is generated."""
+        output_file = outputs_dir / "zsh_basics.txt"
+        assert output_file.exists(), f"Missing output file: {output_file}"
+
+    def test_zsh_basics_has_content(self, outputs_dir: Path) -> None:
+        """Test that zsh_basics.txt has meaningful content."""
+        output_file = outputs_dir / "zsh_basics.txt"
+        content = output_file.read_text()
+        assert len(
+            content) > 100, "zsh_basics.txt should have substantial content"
+        assert "zsh" in content.lower() or "array" in content, "Missing expected zsh content"
+
+
 class TestPythonOutputs:
     """Test python script outputs."""
 
@@ -111,6 +145,44 @@ class TestPythonOutputs:
         )
 
 
+class TestCppOutputs:
+    """Test C++ program outputs."""
+
+    def test_cpp_basics_output_exists(self, outputs_dir: Path) -> None:
+        """Test that cpp_basics.txt is generated."""
+        output_file = outputs_dir / "cpp_basics.txt"
+        assert output_file.exists(), f"Missing output file: {output_file}"
+
+    def test_cpp_basics_has_content(self, outputs_dir: Path) -> None:
+        """Test that cpp_basics.txt has meaningful content."""
+        output_file = outputs_dir / "cpp_basics.txt"
+        content = output_file.read_text()
+        assert len(
+            content) > 200, "cpp_basics.txt should have substantial content"
+        assert any(
+            keyword in content.lower() for keyword in ["vector", "map", "class", "template"]
+        ), "Missing expected C++ concepts"
+
+
+class TestCppOutputs:
+    """Test C++ program outputs."""
+
+    def test_cpp_basics_output_exists(self, outputs_dir: Path) -> None:
+        """Test that cpp_basics.txt is generated."""
+        output_file = outputs_dir / "cpp_basics.txt"
+        assert output_file.exists(), f"Missing output file: {output_file}"
+
+    def test_cpp_basics_has_content(self, outputs_dir: Path) -> None:
+        """Test that cpp_basics.txt has meaningful content."""
+        output_file = outputs_dir / "cpp_basics.txt"
+        content = output_file.read_text()
+        assert len(
+            content) > 200, "cpp_basics.txt should have substantial content"
+        assert any(
+            keyword in content.lower() for keyword in ["vector", "map", "class", "template"]
+        ), "Missing expected C++ concepts"
+
+
 class TestOutputsDirectory:
     """Test outputs directory structure."""
 
@@ -125,10 +197,13 @@ class TestOutputsDirectory:
             "bash_basics.txt",
             "bash_grep.txt",
             "bash_awk.txt",
+            "zsh_basics.txt",
+            "zsh_functions.txt",
             "perl_basics.txt",
             "python_basics.txt",
             "python_numpy.txt",
             "python_matplotlib.txt",
+            "cpp_basics.txt",
             "_tmp_array.npy",  # From numpy demo
         }
 
