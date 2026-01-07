@@ -39,7 +39,12 @@ all: prepare $(SUBDIRS)
 
 .PHONY: test
 test:
-	@python3 -m pytest tests/ -v
+	@if [ -f python/.venv/bin/python ]; then \
+		python/.venv/bin/python -m pytest tests/ -v; \
+	else \
+		echo "Error: Python venv not found. Run 'make setup' first."; \
+		exit 1; \
+	fi
 
 .PHONY: clean
 clean:

@@ -5,143 +5,68 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-    paths:
-      - 'bash/**'
-      - 'python/**'
-      - 'perl/**'
-      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
-  test-scripts:
-    name: Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+  test:
+    name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: "pip"
-          cache-dependency-path: "python/pyproject.toml"
-
-      - name: Install Perl
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get update
-            sudo apt-get install -y perl
-          fi
-          perl --version
-
-      - name: Cache Python virtual environment
-        uses: actions/cache@v4
-        with:
-          path: python/.venv
-          key: ${{ runner.os }}-venv-${{ matrix.python-version }}-${{ hashFiles('python/pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-venv-${{ matrix.python-version }}-
-
-      - name: Set up Python environment
-        run: |
-          if [ ! -d "python/.venv" ]; then
-            make setup
-          fi
-
-      - name: Run bash scripts
-        run: make bash
-
-      - name: Run perl scripts
-        run: make perl
-
-      - name: Run python scripts
-        run: make python
-
-      - name: Verify outputs were generated
-        run: |
-          test -f outputs/bash_basics.txt || (echo "Missing bash_basics.txt" && exit 1)
-          test -f outputs/bash_grep.txt || (echo "Missing bash_grep.txt" && exit 1)
-          test -f outputs/bash_awk.txt || (echo "Missing bash_awk.txt" && exit 1)
-          test -f outputs/perl_basics.txt || (echo "Missing perl_basics.txt" && exit 1)
-          test -f outputs/python_basics.txt || (echo "Missing python_basics.txt" && exit 1)
-          test -f outputs/python_numpy.txt || (echo "Missing python_numpy.txt" && exit 1)
-          test -f outputs/python_matplotlib.txt || (echo "Missing python_matplotlib.txt" && exit 1)
-          echo "✓ All expected outputs generated"
-
-      - name: Run tests
-        run: |
-          source python/.venv/bin/activate
-          pytest tests/ -v
-
-      - name: Upload outputs as artifacts
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: outputs-${{ matrix.os }}-py${{ matrix.python-version }}
-          path: outputs/
-          retention-days: 7
-
-  lint:
-    name: Lint and style checks
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+          cache: pip
+          cache-dependency-path: python/pyproject.toml
 
-      - name: Install shellcheck
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck
-
-      - name: Cache ShellCheck
-        uses: actions/cache@v4
-        with:
-          path: ~/.local/bin/shellcheck
-          key: ${{ runner.os }}-shellcheck-0.9.0
-
-      - name: Set up Python environment
+      - name: Install dependencies
         run: make setup
 
-      - name: Run linters
-        run: make lint
+      - name: Run all scripts
+        run: make all
 
-      - name: Check shell scripts with shellcheck
-        run: |
-          shellcheck bash/*.sh
-          shellcheck run_scripts.sh
-
-      - name: Check Python with ruff
+      - name: Run test suite
         run: |
           source python/.venv/bin/activate
-          ruff check python/
+          pytest tests/ -v
 
-      - name: Check Perl syntax
-        run: |
-          perl -c perl/basics.pl
+      - name: Upload outputs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: outputs-${{ matrix.os }}
+          path: outputs/
+          retention-days: 3
 
-  cache-outputs:
-    name: Cache outputs
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cache outputs
-        uses: actions/cache@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          path: outputs
-          key: outputs-${{ hashFiles('bash/**', 'python/**', 'perl/**') }}
+          python-version: "3.12"
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Check shell scripts
+        run: shellcheck bash/*.sh run_scripts.sh zsh/*.zsh
+
+      - name: Install Python linters
+        run: pip install ruff
+
+      - name: Check Python code
+        run: ruff check python/

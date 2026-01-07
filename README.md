@@ -132,12 +132,10 @@ make clean
 
 ## CI/CD
 
-GitHub Actions automatically:
+GitHub Actions automatically runs on every push:
 
-- Tests on Ubuntu and macOS
-- Validates with Python 3.10, 3.11, and 3.12
-- Runs all scripts and verifies outputs
-- Performs linting checks
-- Runs the test suite
+- **Test** - Runs all scripts (bash, zsh, perl, python, cpp) on Ubuntu and macOS
+- **Lint** - Checks shell scripts with shellcheck and Python code with ruff
+- **Verify** - Runs the test suite with pytest
 
 See [.github/workflows/ci.yml](.github/workflows/ci.yml) for details.
