@@ -1,5 +1,5 @@
 VENV_PY := $(CURDIR)/.venv/bin/python
-PY ?= $(shell [[ -x "$(VENV_PY)" ]] && echo "$(VENV_PY)" || echo python3)
+PY ?= $(shell test -x "$(VENV_PY)" && echo "$(VENV_PY)" || echo python3)
 OUTDIR ?= ../outputs
 
 .PHONY: all setup check run

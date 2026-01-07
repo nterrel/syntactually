@@ -27,6 +27,10 @@ jobs:
           cache: pip
           cache-dependency-path: python/pyproject.toml
 
+      - name: Install zsh (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
       - name: Install dependencies
         run: make setup
 
