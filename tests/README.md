@@ -12,22 +12,26 @@ Automated test suite for validating all scripts and outputs.
 ## Running Tests
 
 Run all tests:
+
 ```bash
 make test
 ```
 
 Run with pytest directly (requires activated venv):
+
 ```bash
 source python/.venv/bin/activate
 pytest tests/ -v
 ```
 
 Run specific test file:
+
 ```bash
 pytest tests/test_outputs.py -v
 ```
 
 Run specific test:
+
 ```bash
 pytest tests/test_outputs.py::TestBashOutputs::test_bash_basics_output_exists -v
 ```
@@ -35,16 +39,19 @@ pytest tests/test_outputs.py::TestBashOutputs::test_bash_basics_output_exists -v
 ## What Tests Verify
 
 ### Output Generation
+
 - All expected output files are created in `outputs/`
 - Output files contain meaningful content
 - Output files have expected keywords/patterns
 
 ### Script Syntax
+
 - All bash scripts pass `bash -n` syntax check
 - All perl scripts pass `perl -c` syntax check
 - All python scripts can be compiled
 
 ### Makefile Targets
+
 - All make targets execute without errors
 - `make help` displays usage information
 - `make prepare` creates necessary directories
@@ -61,6 +68,7 @@ When adding a new script:
 ## CI Integration
 
 These tests run automatically in GitHub Actions on:
+
 - Every push to main/master
 - Every pull request
 - Multiple OS (Ubuntu, macOS)

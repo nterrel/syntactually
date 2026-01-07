@@ -17,7 +17,8 @@ class TestBashOutputs:
         """Test that bash_basics.txt has meaningful content."""
         output_file = outputs_dir / "bash_basics.txt"
         content = output_file.read_text()
-        assert len(content) > 100, "bash_basics.txt should have substantial content"
+        assert len(
+            content) > 100, "bash_basics.txt should have substantial content"
         assert "Variables" in content or "count=" in content, "Missing expected bash output"
 
     def test_bash_grep_output_exists(self, outputs_dir: Path) -> None:
@@ -72,7 +73,8 @@ class TestPythonOutputs:
         """Test that python_basics.txt has meaningful content."""
         output_file = outputs_dir / "python_basics.txt"
         content = output_file.read_text()
-        assert len(content) > 200, "python_basics.txt should have substantial content"
+        assert len(
+            content) > 200, "python_basics.txt should have substantial content"
         assert any(
             keyword in content for keyword in ["string", "dict", "list", "function"]
         ), "Missing expected Python concepts"
@@ -88,7 +90,8 @@ class TestPythonOutputs:
         content = output_file.read_text()
         assert len(content) > 100, "python_numpy.txt should have content"
         # Should either have numpy content or a skip message
-        assert "numpy" in content.lower() or "array" in content.lower() or "skip" in content.lower()
+        assert "numpy" in content.lower(
+        ) or "array" in content.lower() or "skip" in content.lower()
 
     def test_python_matplotlib_output_exists(self, outputs_dir: Path) -> None:
         """Test that python_matplotlib.txt is generated."""

@@ -1,8 +1,5 @@
 # syntactualize
 
-![CI](https://github.com/nickterrel/syntactualize/workflows/CI/badge.svg)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 A personal "syntax notebook" repo: short, runnable examples and reminders for languages/tools I use.
 Each folder contains small scripts that double as notes and reference material.
 
