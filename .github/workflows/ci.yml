@@ -5,6 +5,11 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+    paths:
+      - 'bash/**'
+      - 'python/**'
+      - 'perl/**'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
@@ -26,6 +31,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
+          cache-dependency-path: "python/pyproject.toml"
 
       - name: Install Perl
         run: |
@@ -35,8 +41,19 @@ jobs:
           fi
           perl --version
 
+      - name: Cache Python virtual environment
+        uses: actions/cache@v4
+        with:
+          path: python/.venv
+          key: ${{ runner.os }}-venv-${{ matrix.python-version }}-${{ hashFiles('python/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-${{ matrix.python-version }}-
+
       - name: Set up Python environment
-        run: make setup
+        run: |
+          if [ ! -d "python/.venv" ]; then
+            make setup
+          fi
 
       - name: Run bash scripts
         run: make bash
@@ -90,6 +107,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y shellcheck
 
+      - name: Cache ShellCheck
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin/shellcheck
+          key: ${{ runner.os }}-shellcheck-0.9.0
+
       - name: Set up Python environment
         run: make setup
 
@@ -109,3 +132,16 @@ jobs:
       - name: Check Perl syntax
         run: |
           perl -c perl/basics.pl
+
+  cache-outputs:
+    name: Cache outputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache outputs
+        uses: actions/cache@v4
+        with:
+          path: outputs
+          key: outputs-${{ hashFiles('bash/**', 'python/**', 'perl/**') }}
